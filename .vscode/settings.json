@@ -1,0 +1,21 @@
+{
+  // editor
+  "editor.formatOnSave": false,
+  "editor.formatOnPaste": false,
+  // misc
+  "terminal.integrated.scrollback": 10000,
+  "search.exclude": {
+    "**/remappings.txt": true,
+    "**/foundry.toml": true,
+    "**/cache/**": true,
+    "**/lib/**": true,
+    "**/out/**": true,
+  },
+  // solidity
+  "solidity.defaultCompiler": "remote",
+  "[solidity]": {
+    "editor.defaultFormatter": "JuanBlanco.solidity"
+  },
+  "solidity.compileUsingRemoteVersion": "v0.8.24+commit.e11b9ed9",
+  "solidity.formatter": "forge"
+}
