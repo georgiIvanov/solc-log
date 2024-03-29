@@ -13,19 +13,32 @@ library SolcLog {
   }
 
   /// @notice Logs number with message
-  /// Format is [message] [number divided by WAD] [number]
+  /// Format is [message] [whole part]-[WAD]
   /// @param message The message to log
-  /// @param number The number to log
+  /// @param number The number to format
   function log(string memory message, uint256 number) view public {
     console.log(SolcLogInternal.format(message, number, SolcLogInternal.WAD));
   }
 
   /// @notice Logs number with message
-  /// Format is [message] [number divided by decimalPlaces] [number]
+  /// Format is [message][whole part]-[decimal places]
   /// @param message The message to log
-  /// @param number The number to log
+  /// @param number The number to format
   function log(string memory message, uint256 number, uint256 decimalPlaces) view public {
     console.log(SolcLogInternal.format(message, number, decimalPlaces));
+  }
+
+  /// @notice Formats and logs number
+  /// Format is [whole part]-[WAD]
+  /// @param number The number to format
+  function log(uint256 number) view public {
+    console.log(SolcLogInternal.format(number, SolcLogInternal.WAD));
+  }
+
+  /// @notice Formats and logs number
+  /// Format is [whole part]-[decimal places]
+  function log(uint256 number, uint256 decimalPlaces) view public {
+    console.log(SolcLogInternal.format(number, decimalPlaces));
   }
 
   /// @notice Logs line delimiter
@@ -45,6 +58,7 @@ library SolcLog {
   }
 
   /// @notice Logs an address with message prefix
+  /// Format is [message][address]
   function log(string memory message, address addr) view public {
     console.log(message, addr);
   }

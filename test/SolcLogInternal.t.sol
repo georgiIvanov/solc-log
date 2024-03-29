@@ -33,20 +33,25 @@ contract SolcLogInternalTest is Test {
     );
   }
 
-  function testFormat() pure public {
+  function testNumberFormat() pure public {
+    assertEq(
+      SolcLogInternal.format(5 ether, SolcLogInternal.WAD), 
+      "5-000000000000000000"
+    );
+
     assertEq(
       SolcLogInternal.format("number: ", 123 ether, SolcLogInternal.WAD), 
-      "number: 123 (123000000000000000000)"
+      "number: 123-000000000000000000"
     );
 
     assertEq(
       SolcLogInternal.format("number: ", 123 * 1e6, 1e6), 
-      "number: 123 (123000000)"
+      "number: 123-000000"
     );
 
     assertEq(
       SolcLogInternal.format("number: ", 0, 1e6), 
-      "number: 0 (0)"
+      "number: 0"
     );
   }
 }

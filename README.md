@@ -16,3 +16,6 @@ Update `remappings.txt`:
 
 Import logging library:
 `import {SolcLog} from "solc-log/SolcLog.sol";`
+
+Make sure to add verbose logging to your command, example:
+`forge test -vv`

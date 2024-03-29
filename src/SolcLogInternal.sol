@@ -6,17 +6,28 @@ import {Vm} from "forge-std/Vm.sol";
 library SolcLogInternal {
     uint256 internal constant WAD = 1e18;
     uint256 internal constant LineLength = 60;
+    string internal constant WholeNumberDelimiter = "-";
 
     address private constant VM_ADDRESS = address(uint160(uint256(keccak256("hevm cheat code"))));
     Vm private constant vm = Vm(VM_ADDRESS);
 
-    // TODO: change number format from 5 (5000...000) to 5-000...000 for brevity
     function format(string memory message, uint256 number, uint256 decimalPlaces) pure internal returns(string memory) {
       return string.concat(
         message,
-        vm.toString(number / decimalPlaces),
-        " ",
-        inParenthesis(number)
+        format(number, decimalPlaces)
+      );
+    }
+
+    function format(uint256 number, uint256 decimalPlaces) pure internal returns(string memory) {
+      if (number == 0) {
+        return "0";
+      }
+
+      string memory wholeNumber = vm.toString(number / decimalPlaces);
+      return string.concat(
+        wholeNumber,
+        WholeNumberDelimiter,
+        removeFirstNChars(vm.toString(number), bytes(wholeNumber).length)
       );
     }
 
@@ -47,7 +58,16 @@ library SolcLogInternal {
         return result;
     }
 
-    function inParenthesis(uint256 number) pure private returns(string memory) {
-        return string.concat("(", vm.toString(number), ")");
+    function removeFirstNChars(string memory str, uint256 n) private pure returns (string memory) {
+      require(bytes(str).length > n, "String length is less than N");
+
+      bytes memory strBytes = bytes(str);
+      bytes memory result = new bytes(strBytes.length - n);
+
+      for (uint256 i = n; i < strBytes.length; ++i) {
+        result[i - n] = strBytes[i];
+      }
+
+      return string(result);
     }
 }
