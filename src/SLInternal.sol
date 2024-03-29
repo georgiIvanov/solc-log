@@ -3,7 +3,7 @@ pragma solidity ^0.8.0;
 
 import {Vm} from "forge-std/Vm.sol";
 
-library SolcLogInternal {
+library slInternal {
     uint256 internal constant WAD = 1e18;
     uint256 internal constant LineLength = 60;
     string internal constant WholeNumberDelimiter = "-";
