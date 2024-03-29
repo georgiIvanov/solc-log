@@ -5,6 +5,13 @@ import "forge-std/console.sol";
 import "./SolcLogInternal.sol";
 
 library SolcLog {
+  /// @notice Logs a message
+  /// Format is [message]
+  /// @param message The message to log
+  function log(string memory message) view public {
+    console.log(message);
+  }
+
   /// @notice Logs number with message
   /// Format is [message] [number divided by WAD] [number]
   /// @param message The message to log

@@ -5,16 +5,16 @@ import "forge-std/Test.sol";
 
 library SolcLogInternal {
     uint256 internal constant WAD = 1e18;
-    uint256 internal constant LineLength = 80;
+    uint256 internal constant LineLength = 60;
 
     address private constant VM_ADDRESS = address(uint160(uint256(keccak256("hevm cheat code"))));
     Vm private constant vm = Vm(VM_ADDRESS);
 
     function format(string memory message, uint256 number, uint256 decimalPlaces) pure internal returns(string memory) {
       return string.concat(
-        message, 
-        vm.toString(number / decimalPlaces), 
-        " ", 
+        message,
+        vm.toString(number / decimalPlaces),
+        " ",
         inParenthesis(number)
       );
     }

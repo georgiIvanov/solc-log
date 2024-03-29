@@ -4,7 +4,7 @@ pragma solidity ^0.8.23;
 import {Test, console} from "forge-std/Test.sol";
 import "@src/SolcLog.sol";
 
-contract SolcLogTest is Test {
+contract SolcLogConsoleTest is Test {
   function testPrintNumbersInDifferentDenominations() view public {
     SolcLog.logLineDelimiter("Some examples");
     SolcLog.log("number: ", 123 ether);
