@@ -10,6 +10,7 @@ library SolcLogInternal {
     address private constant VM_ADDRESS = address(uint160(uint256(keccak256("hevm cheat code"))));
     Vm private constant vm = Vm(VM_ADDRESS);
 
+    // TODO: change number format from 5 (5000...000) to 5-000...000 for brevity
     function format(string memory message, uint256 number, uint256 decimalPlaces) pure internal returns(string memory) {
       return string.concat(
         message,
