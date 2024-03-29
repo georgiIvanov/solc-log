@@ -25,4 +25,8 @@ library SolcLog {
   function logLineDelimiter() view public {
     console.log(SolcLogInternal.lineDelimiter());
   }
+
+  function logLineDelimiter(string memory message) view public {
+    console.log(SolcLogInternal.lineDelimiter(message));
+  }
 }

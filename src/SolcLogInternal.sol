@@ -11,16 +11,27 @@ library SolcLogInternal {
     Vm private constant vm = Vm(VM_ADDRESS);
 
     function format(string memory message, uint256 number, uint256 decimalPlaces) pure internal returns(string memory) {
-        return string.concat(
-          message, 
-          vm.toString(number / decimalPlaces), 
-          " ", 
-          inParenthesis(number)
-        );
+      return string.concat(
+        message, 
+        vm.toString(number / decimalPlaces), 
+        " ", 
+        inParenthesis(number)
+      );
     }
 
     function lineDelimiter() pure internal returns(string memory) {
-        return duplicateString("-", LineLength);
+      return duplicateString("-", LineLength);
+    }
+
+    function lineDelimiter(string memory message) pure internal returns(string memory) {
+      uint256 strLength = bytes(message).length;
+      uint256 padding = (LineLength - strLength) / 2;
+      uint256 align = strLength % 2 == 0 ? 1 : 0;
+      return string.concat(
+        duplicateString("-", padding - align),  // leave some space 
+        " ", message, " ",
+        duplicateString("-", padding - 1)
+      );
     }
 
     /*//////////////////////////////////////////////////////////////
