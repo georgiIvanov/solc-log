@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.23;
 
-import "forge-std/Test.sol";
+import {Vm} from "forge-std/Vm.sol";
 
 library SolcLogInternal {
     uint256 internal constant WAD = 1e18;
