@@ -4,7 +4,7 @@ pragma solidity ^0.8.0;
 import {Vm} from "forge-std/Vm.sol";
 
 library slInternal {
-    uint256 internal constant WAD = 1e18;
+    uint256 internal constant WAD = 18;
     uint256 internal constant LineLength = 60;
     string internal constant WholeNumberDelimiter = "-";
 
@@ -23,12 +23,22 @@ library slInternal {
         return "0";
       }
 
-      string memory wholeNumber = vm.toString(number / decimalPlaces);
-      return string.concat(
-        wholeNumber,
-        WholeNumberDelimiter,
-        removeFirstNChars(vm.toString(number), bytes(wholeNumber).length)
-      );
+      string memory numberStr = vm.toString(number); 
+      uint256 numberLength = bytes(numberStr).length;
+      if (decimalPlaces == 0) {
+        return numberStr;
+      }
+
+      if(decimalPlaces == numberLength) {
+        // number is less than 1
+        return string.concat("0", WholeNumberDelimiter, numberStr);
+      } else if (decimalPlaces > numberLength) {
+        // For now when decimalPlaces is greater than number length, we just return the number
+        return numberStr; 
+      } 
+      else {
+        return insertNumberDelimiter(numberStr, numberLength, decimalPlaces);
+      }
     }
 
     function lineDelimiter() pure internal returns(string memory) {
@@ -50,6 +60,30 @@ library slInternal {
                                 PRIVATE
     //////////////////////////////////////////////////////////////*/
 
+    function insertNumberDelimiter(string memory number, uint256 numberLength, uint256 decimalPlaces) public pure returns(string memory) {
+      if (decimalPlaces == numberLength) {
+        // number is less than 1
+        return string.concat("0", WholeNumberDelimiter, number);
+      }
+
+      uint256 newLength = numberLength + 1;
+      bytes memory result = new bytes(newLength);
+      bytes memory strBytes = bytes(number);
+      
+      for (uint256 i; i < newLength; ++i) {
+        if (i + decimalPlaces == numberLength) {
+          result[i] = bytes(WholeNumberDelimiter)[0];
+        } else if (i + decimalPlaces > numberLength) {
+          result[i] = strBytes[i - 1]; // i-1 because we added a char
+        } else {
+          result[i] = strBytes[i]; // copy all before delimiter char
+        }
+      }
+
+      return string(result);
+    }
+      
+
     function duplicateString(string memory str, uint256 times) private pure returns (string memory) {
         string memory result;
         for (uint256 i; i < times; ++i) {
@@ -58,7 +92,12 @@ library slInternal {
         return result;
     }
 
+    // Deprecated, to remove
     function removeFirstNChars(string memory str, uint256 n) private pure returns (string memory) {
+      uint256 strLength = bytes(str).length;
+      if (strLength == n) {
+        return str;
+      }
       require(bytes(str).length > n, "String length is less than N");
 
       bytes memory strBytes = bytes(str);
