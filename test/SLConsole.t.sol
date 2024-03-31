@@ -5,9 +5,9 @@ import {Test, console} from "forge-std/Test.sol";
 import "@src/SL.sol";
 
 contract SLConsoleTest is Test {
-  function testPrintNumbersInDifferentDenominations() view public {
+  function testPrintNumbersInDifferentDenominations() pure public {
     sl.logLineDelimiter("Some examples");
-    sl.log("Logs from:", address(this));
+    sl.log("Logs from:", address(0x1111111111111111111111111111111111111111));
     sl.log("number: ", 123 ether);
     sl.log("1 ether: ", 1 ether);
     sl.log("USDC Denom: ", 123 * 1e6, 6); // USDC denomination
