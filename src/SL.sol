@@ -62,4 +62,12 @@ library sl {
   function log(string memory message, address addr) pure public {
     console2.log(message, addr);
   }
+
+  function indent() pure public {
+    slInternal.indent();
+  }
+
+  function outdent() pure public {
+
+  }
 }
