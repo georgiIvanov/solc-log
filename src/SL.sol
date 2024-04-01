@@ -3,6 +3,7 @@ pragma solidity ^0.8.0;
 
 import {console2} from "forge-std/console2.sol";
 import "./slInternal.sol";
+import "./slIndent.sol";
 
 library sl {
   /// @notice Logs a message
@@ -64,7 +65,7 @@ library sl {
   }
 
   function indent() pure public {
-    slInternal.indent();
+    slIndent.indent();
   }
 
   function outdent() pure public {
