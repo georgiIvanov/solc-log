@@ -4,36 +4,8 @@ pragma solidity ^0.8.0;
 import {Test, console} from "forge-std/Test.sol";
 import "@src/SLInternal.sol";
 
-contract SLInternalTest is Test {
-
-  function testLineDelimiters() pure public {
-    assertEq(
-      slInternal.lineDelimiter(), 
-      "------------------------------------------------------------"
-    );
-
-    assertEq(
-      slInternal.lineDelimiter("|"), 
-      "----------------------------- | ----------------------------"
-    );
-
-    assertEq(
-      slInternal.lineDelimiter("||"), 
-      "---------------------------- || ----------------------------"
-    );
-
-    assertEq(
-      slInternal.lineDelimiter("|||"), 
-      "---------------------------- ||| ---------------------------"
-    );
-    
-    assertEq(
-      slInternal.lineDelimiter("Some examples"), 
-      "----------------------- Some examples ----------------------"
-    );
-  }
-
-  function testNumberFormat() pure public {
+contract SLNumberFormat is Test {
+  function testDecimalLessThanNumberLength() pure public {
     assertEq(
       slInternal.format(5 ether, slInternal.WAD), 
       "5-000000000000000000"
@@ -53,14 +25,14 @@ contract SLInternalTest is Test {
       slInternal.format("number: ", 123 * 1e6, 6), 
       "number: 123-000000"
     );
+  }
 
+  function testDecimalGreaterThanNumber() pure public {
     assertEq(
       slInternal.format("number: ", 0, 6), 
       "number: 0"
     );
-  }
 
-  function testNumberFormatSmallNumbers() pure public {
     uint8 smallNum = 8;
     assertEq(
       slInternal.format("number: ", smallNum, 0), 
@@ -71,7 +43,9 @@ contract SLInternalTest is Test {
       slInternal.format("number: ", smallNum, slInternal.WAD), 
       "number: 8"
     );
+  }
 
+  function testSameNumberDifferentDecimals() pure public {
     uint128 fiveMillion = 5_000_000;
     assertEq(
       slInternal.format("5M, 1 dec: ", fiveMillion, 1), 
