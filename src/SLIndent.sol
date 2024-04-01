@@ -11,6 +11,25 @@ library slIndent {
     address private constant VM_ADDRESS = address(uint160(uint256(keccak256("hevm cheat code"))));
     Vm private constant vm = Vm(VM_ADDRESS);
 
+    function indentCount() pure internal returns (uint256) {
+        bytes memory payload = abi.encodeWithSignature("envOr(string,uint256)", InsetCountKey, 0);
+        return _sendReadU256Payload(payload);
+    }
+
+    function indent() internal pure returns (uint256) {
+      uint256 indentTimes = indentCount() + 1;
+      bytes memory payload = abi.encodeWithSignature("setEnv(string,string)", InsetCountKey, vm.toString(indentTimes));
+      _sendSetEnvPayload(payload);
+      return indentTimes;
+    }
+
+    function outdent() internal pure returns (uint256) {
+      uint256 indentTimes = indentCount() - 1;
+      bytes memory payload = abi.encodeWithSignature("setEnv(string,string)", InsetCountKey, vm.toString(indentTimes));
+      _sendSetEnvPayload(payload);
+      return indentTimes;
+    }
+
     function _castReadU256ToPure(
         function(bytes memory) internal view returns (uint256) fnIn
     ) internal pure returns (function(bytes memory) internal pure returns (uint256) fnOut) {
@@ -60,13 +79,5 @@ library slIndent {
             let payloadStart := add(payload, 32)
             let success := staticcall(gas(), vmAddress, payloadStart, payloadLength, 0, 0)
         }
-    }
-
-    function indent() internal pure returns (uint256){
-      bytes memory payload = abi.encodeWithSignature("envOr(string,uint256)", InsetCountKey, 0);
-      uint256 indentTimes = _sendReadU256Payload(payload) + 1;
-      payload = abi.encodeWithSignature("setEnv(string,string)", InsetCountKey, vm.toString(indentTimes));
-      _sendSetEnvPayload(payload);
-      return indentTimes;
     }
 }

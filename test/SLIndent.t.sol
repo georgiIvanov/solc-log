@@ -25,8 +25,18 @@ contract SLIndent is Test {
     // Run indent
     uint256 indentTimes = slIndent.indent();
     assertEq(indentTimes, 1);
+
     indentTimes = slIndent.indent();
     assertEq(indentTimes, 2);
+
+    indentTimes = slIndent.outdent();
+    assertEq(indentTimes, 1);
+
+    indentTimes = slIndent.outdent();
+    assertEq(indentTimes, 0);
+
+    vm.expectRevert();
+    indentTimes = slIndent.outdent();
 
     // Clear the env value
     vm.setEnv(slIndent.InsetCountKey, vm.toString(uint256(0)));
