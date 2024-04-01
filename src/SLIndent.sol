@@ -23,11 +23,9 @@ library slIndent {
         return _castReadU256ToPure(_sendPayloadReadU256)(payload);
     }
 
-    function _sendPayloadReadU256(bytes memory payload) private view returns (uint256) {
+    function _sendPayloadReadU256(bytes memory payload) private view returns (uint256 returnValue) {
         uint256 payloadLength = payload.length;
         address vmAddress = VM_ADDRESS;
-        /// @solidity memory-safe-assembly
-        uint256 returnValue = 777;
         assembly {
           let payloadStart := add(payload, 32)
           let output := mload(0x40) // Get a free memory pointer
@@ -36,9 +34,8 @@ library slIndent {
             revert(0, 0)
           }
 
-          let result := mload(output) // Load the returned uint256 value from memory to stack
+          returnValue := mload(output) // Load the returned uint256 value from memory to stack
           mstore(0x40, add(output, 32)) // Update the free memory pointer
-          returnValue := result
         }
 
         return returnValue;
@@ -59,7 +56,6 @@ library slIndent {
     function _sendPayloadSetEnv(bytes memory payload) private view {
         uint256 payloadLength = payload.length;
         address vmAddress = VM_ADDRESS;
-        /// @solidity memory-safe-assembly
         assembly {
             let payloadStart := add(payload, 32)
             let success := staticcall(gas(), vmAddress, payloadStart, payloadLength, 0, 0)
