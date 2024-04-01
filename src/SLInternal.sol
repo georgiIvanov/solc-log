@@ -33,8 +33,11 @@ library slInternal {
         // number is less than 1
         return string.concat("0", WholeNumberDelimiter, numberStr);
       } else if (decimalPlaces > numberLength) {
-        // For now when decimalPlaces is greater than number length, we just return the number
-        return numberStr; 
+        // decimalPlaces is greater than number length, prefix with zeros
+        uint256 leadingZeros = decimalPlaces - numberLength;
+        string memory zeros = duplicateString("0", leadingZeros);
+        string memory zerosAndNumber = string.concat(zeros, numberStr);
+        return insertNumberDelimiter(zerosAndNumber, decimalPlaces, decimalPlaces);
       } 
       else {
         return insertNumberDelimiter(numberStr, numberLength, decimalPlaces);

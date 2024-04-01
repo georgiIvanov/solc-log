@@ -41,12 +41,18 @@ contract SLNumberFormat is Test {
 
     assertEq(
       slInternal.format("number: ", smallNum, slInternal.WAD), 
-      "number: 8"
+      "number: 0-000000000000000008"
     );
   }
 
   function testSameNumberDifferentDecimals() pure public {
     uint128 fiveMillion = 5_000_000;
+
+    assertEq(
+      slInternal.format("5M, 0 dec: ", fiveMillion, 0), 
+      "5M, 0 dec: 5000000"
+    );
+
     assertEq(
       slInternal.format("5M, 1 dec: ", fiveMillion, 1), 
       "5M, 1 dec: 500000-0"
@@ -69,7 +75,12 @@ contract SLNumberFormat is Test {
 
     assertEq(
       slInternal.format("5M, 8 dec: ", fiveMillion, 8), 
-      "5M, 8 dec: 5000000"
+      "5M, 8 dec: 0-05000000"
+    );
+
+    assertEq(
+      slInternal.format("5M, 18 dec: ", fiveMillion, slInternal.WAD), 
+      "5M, 18 dec: 0-000000000005000000"
     );
   }
 }
