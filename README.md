@@ -12,16 +12,24 @@ Features:
 ## Usage
 
 Install it as a dependency:
-`forge install git@github.com:georgiIvanov/solc-log.git`
+```bash
+forge install git@github.com:georgiIvanov/solc-log.git
+```
 
 Update `remappings.txt`:
-`solc-log/=lib/solc-log/src/`
+```bash
+solc-log/=lib/solc-log/src/
+```
 
 Import logging library:
-`import {SolcLog} from "solc-log/SolcLog.sol";`
+```sol
+import {SolcLog} from "solc-log/SolcLog.sol";
+```
 
 Make sure to add verbose logging to your command, example:
-`forge test --mc ContractName -vv`
+```bash
+forge test --mc ContractName -vv
+```
 
 To avoid indentation issues, run only 1 test. See more details in **Tests** section.
 
