@@ -8,62 +8,14 @@ library slInternal {
     uint256 internal constant LineLength = 60;
     string internal constant WholeNumberDelimiter = "-";
 
-    address private constant VM_ADDRESS = address(uint160(uint256(keccak256("hevm cheat code"))));
-    Vm private constant vm = Vm(VM_ADDRESS);
-
-    function format(string memory message, uint256 number, uint256 decimalPlaces) pure internal returns(string memory) {
-      return string.concat(
-        message,
-        format(number, decimalPlaces)
-      );
-    }
-
-    function format(uint256 number, uint256 decimalPlaces) pure internal returns(string memory) {
-      if (number == 0) {
-        return "0";
-      }
-
-      string memory numberStr = vm.toString(number); 
-      uint256 numberLength = bytes(numberStr).length;
-      if (decimalPlaces == 0) {
-        return numberStr;
-      }
-
-      if(decimalPlaces == numberLength) {
-        // number is less than 1
-        return string.concat("0", WholeNumberDelimiter, numberStr);
-      } else if (decimalPlaces > numberLength) {
-        // decimalPlaces is greater than number length, prefix with zeros
-        uint256 leadingZeros = decimalPlaces - numberLength;
-        string memory zeros = duplicateString("0", leadingZeros);
-        string memory zerosAndNumber = string.concat(zeros, numberStr);
-        return insertNumberDelimiter(zerosAndNumber, decimalPlaces, decimalPlaces);
-      } 
-      else {
-        return insertNumberDelimiter(numberStr, numberLength, decimalPlaces);
-      }
-    }
-
-    function lineDelimiter() pure internal returns(string memory) {
-      return duplicateString("-", LineLength);
-    }
-
-    function lineDelimiter(string memory message) pure internal returns(string memory) {
-      uint256 strLength = bytes(message).length;
-      uint256 padding = (LineLength - strLength) / 2;
-      uint256 align = strLength % 2 == 0 ? 1 : 0;
-      return string.concat(
-        duplicateString("-", padding - align),  // leave some space 
-        " ", message, " ",
-        duplicateString("-", padding - 1)
-      );
-    }
+    address internal constant VM_ADDRESS = address(uint160(uint256(keccak256("hevm cheat code"))));
+    Vm internal constant vm = Vm(VM_ADDRESS);
 
     /*//////////////////////////////////////////////////////////////
                                 PRIVATE
     //////////////////////////////////////////////////////////////*/
 
-    function insertNumberDelimiter(string memory number, uint256 numberLength, uint256 decimalPlaces) private pure returns(string memory) {
+    function insertNumberDelimiter(string memory number, uint256 numberLength, uint256 decimalPlaces) internal pure returns(string memory) {
       if (decimalPlaces == numberLength) {
         // number is less than 1
         return string.concat("0", WholeNumberDelimiter, number);
@@ -87,7 +39,7 @@ library slInternal {
     }
       
 
-    function duplicateString(string memory str, uint256 times) private pure returns (string memory) {
+    function duplicateString(string memory str, uint256 times) internal pure returns (string memory) {
         string memory result;
         for (uint256 i; i < times; ++i) {
             result = string.concat(result, str);
@@ -96,7 +48,7 @@ library slInternal {
     }
 
     // Deprecated, to remove
-    function removeFirstNChars(string memory str, uint256 n) private pure returns (string memory) {
+    function removeFirstNChars(string memory str, uint256 n) internal pure returns (string memory) {
       uint256 strLength = bytes(str).length;
       if (strLength == n) {
         return str;

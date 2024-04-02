@@ -2,10 +2,14 @@
 pragma solidity ^0.8.0;
 
 import {console2} from "forge-std/console2.sol";
-import "./slInternal.sol";
-import "./slIndent.sol";
+import {slFormat} from "./slFormat.sol";
+import {slIndent} from "./slIndent.sol";
+import {slInternal} from "./slInternal.sol";
 
 library sl {
+  using slFormat for string;
+  using slFormat for uint256;
+
   /// @notice Logs a message
   /// Format is [message]
   /// @param message The message to log
@@ -18,7 +22,7 @@ library sl {
   /// @param message The message to log
   /// @param number The number to format
   function log(string memory message, uint256 number) pure public {
-    console2.log(slInternal.format(message, number, slInternal.WAD));
+    console2.log(message.format(number, slInternal.WAD));
   }
 
   /// @notice Logs number with message
@@ -26,31 +30,31 @@ library sl {
   /// @param message The message to log
   /// @param number The number to format
   function log(string memory message, uint256 number, uint256 decimalPlaces) pure public {
-    console2.log(slInternal.format(message, number, decimalPlaces));
+    console2.log(message.format(number, decimalPlaces));
   }
 
   /// @notice Formats and logs number
   /// Format is [whole part]-[WAD]
   /// @param number The number to format
   function log(uint256 number) pure public {
-    console2.log(slInternal.format(number, slInternal.WAD));
+    console2.log(number.format(slInternal.WAD));
   }
 
   /// @notice Formats and logs number
   /// Format is [whole part]-[decimal places]
   function log(uint256 number, uint256 decimalPlaces) pure public {
-    console2.log(slInternal.format(number, decimalPlaces));
+    console2.log(number.format(decimalPlaces));
   }
 
   /// @notice Logs line delimiter
   function logLineDelimiter() pure public {
-    console2.log(slInternal.lineDelimiter());
+    console2.log(slFormat.lineDelimiter());
   }
 
   /// @notice Logs line delimiter with message
   /// @param message The message to log
   function logLineDelimiter(string memory message) pure public {
-    console2.log(slInternal.lineDelimiter(message));
+    console2.log(message.lineDelimiter());
   }
 
   /// @notice Logs an address
@@ -69,6 +73,6 @@ library sl {
   }
 
   function outdent() pure public {
-
+    slIndent.outdent();
   }
 }
