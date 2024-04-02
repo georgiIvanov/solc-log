@@ -9,6 +9,14 @@ library slIndent {
     string internal constant LogInset = "    ";
     string internal constant InsetCountKey = "sl.insetCount";
 
+    /// @notice Conditionally applies indent to formatted string
+    /// @dev applyIndent can be called multiple times during format, so we have to apply it conditionally
+    /// @dev Should not be called directly by client code
+    function applyIndent(string memory message, bool shouldIndent) pure internal returns(string memory) {
+      return shouldIndent ? 
+      string.concat(slInternal.duplicateString(LogInset, indentCount()), message) :
+      message;
+    }
 
     function indentCount() pure internal returns (uint256) {
         bytes memory payload = abi.encodeWithSignature("envOr(string,uint256)", InsetCountKey, 0);
