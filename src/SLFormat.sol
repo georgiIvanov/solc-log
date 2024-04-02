@@ -8,6 +8,17 @@ import {slIndent} from "./SLIndent.sol";
 library slFormat {
   using slIndent for string;
 
+  function format(address addr) pure internal returns(string memory) {
+    return slInternal.vm.toString(addr).applyIndent(true); 
+  }
+
+  function format(string memory message, address addr) pure internal returns(string memory) {
+    return string.concat(
+      message,
+      slInternal.vm.toString(addr)
+    ).applyIndent(true);
+  }
+
   function format(string memory message, uint256 number, uint256 decimalPlaces) pure internal returns(string memory) {
     return string.concat(
       message,

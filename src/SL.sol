@@ -9,6 +9,7 @@ import {slInternal} from "./slInternal.sol";
 library sl {
   using slFormat for string;
   using slFormat for uint256;
+  using slFormat for address;
 
   /// @notice Logs a message
   /// Format is [message]
@@ -59,13 +60,13 @@ library sl {
 
   /// @notice Logs an address
   function log(address addr) pure public {
-    console2.log(addr);
+    console2.log(addr.format());
   }
 
   /// @notice Logs an address with message prefix
   /// Format is [message][address]
   function log(string memory message, address addr) pure public {
-    console2.log(message, addr);
+    console2.log(message.format(addr));
   }
 
   function indent() pure public {

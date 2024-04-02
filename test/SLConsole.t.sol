@@ -9,6 +9,7 @@ contract SLConsoleTest is Test {
     sl.indent();
     sl.logLineDelimiter("Some examples");
     sl.log("Logs from:", address(0x1111111111111111111111111111111111111111));
+    sl.log(address(0x1111111111111111111111111111111111111111));
     sl.log("number: ", 123 ether);
     sl.log("1 ether: ", 1 ether);
     sl.log("USDC Denom: ", 123 * 1e6, 6); // USDC denomination
