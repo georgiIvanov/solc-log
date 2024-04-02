@@ -3,13 +3,12 @@ pragma solidity ^0.8.0;
 
 import {Vm} from "forge-std/Vm.sol";
 import {console2} from "forge-std/console2.sol";
+import {slInternal} from "./SLInternal.sol";
 
 library slIndent {
     string internal constant LogInset = "    ";
     string internal constant InsetCountKey = "sl.insetCount";
 
-    address private constant VM_ADDRESS = address(uint160(uint256(keccak256("hevm cheat code"))));
-    Vm private constant vm = Vm(VM_ADDRESS);
 
     function indentCount() pure internal returns (uint256) {
         bytes memory payload = abi.encodeWithSignature("envOr(string,uint256)", InsetCountKey, 0);
@@ -18,14 +17,18 @@ library slIndent {
 
     function indent() internal pure returns (uint256) {
       uint256 indentTimes = indentCount() + 1;
-      bytes memory payload = abi.encodeWithSignature("setEnv(string,string)", InsetCountKey, vm.toString(indentTimes));
+      bytes memory payload = abi.encodeWithSignature(
+        "setEnv(string,string)", InsetCountKey, slInternal.vm.toString(indentTimes)
+      );
       _sendSetEnvPayload(payload);
       return indentTimes;
     }
 
     function outdent() internal pure returns (uint256) {
       uint256 indentTimes = indentCount() - 1;
-      bytes memory payload = abi.encodeWithSignature("setEnv(string,string)", InsetCountKey, vm.toString(indentTimes));
+      bytes memory payload = abi.encodeWithSignature(
+        "setEnv(string,string)", InsetCountKey, slInternal.vm.toString(indentTimes)
+      );
       _sendSetEnvPayload(payload);
       return indentTimes;
     }
@@ -44,7 +47,7 @@ library slIndent {
 
     function _sendPayloadReadU256(bytes memory payload) private view returns (uint256 returnValue) {
         uint256 payloadLength = payload.length;
-        address vmAddress = VM_ADDRESS;
+        address vmAddress = slInternal.VM_ADDRESS;
         assembly {
           let payloadStart := add(payload, 32)
           let output := mload(0x40) // Get a free memory pointer
@@ -74,7 +77,7 @@ library slIndent {
 
     function _sendPayloadSetEnv(bytes memory payload) private view {
         uint256 payloadLength = payload.length;
-        address vmAddress = VM_ADDRESS;
+        address vmAddress = slInternal.VM_ADDRESS;
         assembly {
             let payloadStart := add(payload, 32)
             let success := staticcall(gas(), vmAddress, payloadStart, payloadLength, 0, 0)

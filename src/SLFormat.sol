@@ -3,6 +3,7 @@ pragma solidity ^0.8.0;
 
 import {Vm} from "forge-std/Vm.sol";
 import {slInternal} from "./SLInternal.sol";
+import {slIndent} from "./SLIndent.sol";
 
 library slFormat {
     function format(string memory message, uint256 number, uint256 decimalPlaces) pure internal returns(string memory) {
