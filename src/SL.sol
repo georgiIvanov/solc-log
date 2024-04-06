@@ -52,6 +52,18 @@ library sl {
   }
 
   /*//////////////////////////////////////////////////////////////
+                              LOG BIN
+  //////////////////////////////////////////////////////////////*/
+
+  function logAsBin(uint256 number) pure public {
+    console2.log(slFormat.formatAsBinary(number));
+  }
+
+  function logAsBin(string memory message, uint256 number) pure public {
+    console2.log(message.formatAsBinary(number));
+  }
+
+  /*//////////////////////////////////////////////////////////////
                               LOG HEX
   //////////////////////////////////////////////////////////////*/
 

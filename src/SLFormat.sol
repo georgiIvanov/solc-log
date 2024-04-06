@@ -8,6 +8,39 @@ import {slIndent} from "./SLIndent.sol";
 library slFormat {
   using slIndent for string;
 
+  function formatAsBinary(uint256 number) pure internal returns(string memory) {
+    return _convertToBinary(number).applyIndent(true);
+  }
+
+  function formatAsBinary(string memory message, uint256 number) pure internal returns(string memory) {
+    return string.concat(
+      message,
+      _convertToBinary(number)
+    ).applyIndent(true);
+  }
+
+  function _convertToBinary(uint256 number) pure private returns(string memory) {
+    if (number == 0) {
+      return "0";
+    }
+        
+    bytes memory bstr = new bytes(256);
+    uint256 k = 256;
+    
+    while (number != 0) {
+      bstr[--k] = (number & 1 == 1) ? bytes1('1') : bytes1('0');
+      number >>= 1;
+    }
+    
+    // Truncate the empty entries of the array
+    bytes memory bresult = new bytes(256 - k);
+    for (uint256 i = 0; i < 256 - k; i++) {
+        bresult[i] = bstr[k + i];
+    }
+    
+    return string(bresult);
+  }
+
   function format(string memory message) pure internal returns(string memory) {
     return message.applyIndent(true);
   }

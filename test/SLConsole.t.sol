@@ -28,6 +28,8 @@ contract SLConsoleTest is Test {
 
     sl.logAsHex("Logging hex number: ", 1234567);
     sl.logAsHex(1234567);
+    sl.logAsBin("255 as binary: ", 255);
+    sl.logAsBin(255);
     sl.logLineDelimiter();
     sl.outdent();
   }

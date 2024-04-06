@@ -95,4 +95,20 @@ contract SLNumberFormat is Test {
       "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
     );
   }
+
+  function testFormatAsBinary() pure public {
+    assertEq(slFormat.formatAsBinary(254), "11111110");
+    
+    assertEq(slFormat.formatAsBinary(type(uint256).max), "1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111");
+    
+    assertEq(
+      slFormat.formatAsBinary("binary: ", 123),
+      "binary: 1111011"
+    );
+
+    assertEq(
+      slFormat.formatAsBinary("binary: ", 0),
+      "binary: 0"
+    );
+  }
 }
