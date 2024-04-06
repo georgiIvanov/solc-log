@@ -18,6 +18,10 @@ library sl {
     console2.log(message);
   }
 
+  /*//////////////////////////////////////////////////////////////
+                              LOG NUMBER
+  //////////////////////////////////////////////////////////////*/
+
   /// @notice Logs number with message
   /// Format is [message] [whole part]-[WAD]
   /// @param message The message to log
@@ -47,6 +51,10 @@ library sl {
     console2.log(number.format(decimalPlaces));
   }
 
+  /*//////////////////////////////////////////////////////////////
+                              LOG HEX
+  //////////////////////////////////////////////////////////////*/
+
   function logAsHex(uint256 number) pure public {
     console2.log(slFormat.format(bytes32(number)));
   }
@@ -54,6 +62,10 @@ library sl {
   function logAsHex(string memory message, uint256 number) pure public {
     console2.log(message.format(bytes32(number)));
   }
+
+  /*//////////////////////////////////////////////////////////////
+                          LOG LINE DELIMITER
+  //////////////////////////////////////////////////////////////*/
 
   /// @notice Logs line delimiter
   function logLineDelimiter() pure public {
@@ -66,6 +78,10 @@ library sl {
     console2.log(message.lineDelimiter());
   }
 
+  /*//////////////////////////////////////////////////////////////
+                          LOG ADDRESS
+  //////////////////////////////////////////////////////////////*/
+
   /// @notice Logs an address
   function log(address addr) pure public {
     console2.log(addr.format());
@@ -76,6 +92,10 @@ library sl {
   function log(string memory message, address addr) pure public {
     console2.log(message.format(addr));
   }
+
+  /*//////////////////////////////////////////////////////////////
+                            INDENTATION
+  //////////////////////////////////////////////////////////////*/
 
   function indent() pure public {
     slIndent.indent();
