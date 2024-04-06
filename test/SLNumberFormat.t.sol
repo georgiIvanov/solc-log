@@ -98,7 +98,7 @@ contract SLNumberFormat is Test {
 
   function testFormatAsBinary() pure public {
     assertEq(slFormat.formatAsBinary(254), "11111110");
-    
+
     assertEq(slFormat.formatAsBinary(type(uint256).max), "1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111");
     
     assertEq(
@@ -109,6 +109,23 @@ contract SLNumberFormat is Test {
     assertEq(
       slFormat.formatAsBinary("binary: ", 0),
       "binary: 0"
+    );
+  }
+
+  function testFormatInt() pure public {
+    assertEq(
+      slFormat.format("Negative int: ", int256(-123)),
+      "Negative int: -123"
+    );
+
+    assertEq(
+      slFormat.format("Zero int: ", int256(-0)),
+      "Zero int: 0"
+    );
+
+    assertEq(
+      slFormat.format("Positive int: ", int256(23_456_789)),
+      "Positive int: 23456789"
     );
   }
 }
