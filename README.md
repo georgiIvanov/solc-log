@@ -37,7 +37,8 @@ To avoid indentation issues, run only 1 test. See more details in **Tests** sect
 
 Due to the concurrent nature of the tests and the indent functionality depending on environment variables it is currently not possible to run all tests at once. The reason being is that indent env value is being used by multiple threads, causing tests to fail randomly.
 
-## Issues
+## Troubleshooting
 
-If you don't see logs, make sure you are running a normal unit test.
+1. If you don't see logs, make sure you are running a normal unit test.
 Currently Forge does not support logging in fuzz tests.
+2. Does not work with hardhat
