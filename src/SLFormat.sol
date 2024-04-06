@@ -8,6 +8,19 @@ import {slIndent} from "./SLIndent.sol";
 library slFormat {
   using slIndent for string;
 
+  /// @notice Converts number to hex string with message prefix and applies indent
+  function format(string memory message, bytes32 value) pure internal returns(string memory) {
+    return string.concat(
+      message,
+      slInternal.vm.toString(value)
+    ).applyIndent(true);
+  }
+
+  /// @notice Converts number to hex string and applies indent
+  function format(bytes32 value) pure internal returns(string memory) {
+    return slInternal.vm.toString(value).applyIndent(true);
+  }
+
   function format(address addr) pure internal returns(string memory) {
     return slInternal.vm.toString(addr).applyIndent(true); 
   }

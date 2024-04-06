@@ -25,6 +25,8 @@ contract SLConsoleTest is Test {
     sl.logLineDelimiter();
     sl.outdent();
 
+    sl.logAsHex("Logging hex number: ", 1234567);
+    sl.logAsHex(1234567);
     sl.logLineDelimiter();
     sl.outdent();
   }

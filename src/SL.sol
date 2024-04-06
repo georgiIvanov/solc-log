@@ -47,6 +47,14 @@ library sl {
     console2.log(number.format(decimalPlaces));
   }
 
+  function logAsHex(uint256 number) pure public {
+    console2.log(slFormat.format(bytes32(number)));
+  }
+
+  function logAsHex(string memory message, uint256 number) pure public {
+    console2.log(message.format(bytes32(number)));
+  }
+
   /// @notice Logs line delimiter
   function logLineDelimiter() pure public {
     console2.log(slFormat.lineDelimiter());

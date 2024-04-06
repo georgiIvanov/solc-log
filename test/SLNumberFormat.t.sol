@@ -3,6 +3,7 @@ pragma solidity ^0.8.0;
 
 import {Test, console} from "forge-std/Test.sol";
 import {slFormat, slInternal} from "@src/SLFormat.sol";
+import {sl} from "@src/SL.sol";
 
 contract SLNumberFormat is Test {
   function testDecimalLessThanNumberLength() pure public {
@@ -81,6 +82,17 @@ contract SLNumberFormat is Test {
     assertEq(
       slFormat.format("5M, 18 dec: ", fiveMillion, slInternal.WAD), 
       "5M, 18 dec: 0-000000000005000000"
+    );
+  }
+
+  function testFormatAsHex() pure public {
+    assertEq(
+      slFormat.format(bytes32(uint256(700))),
+      "0x00000000000000000000000000000000000000000000000000000000000002bc"
+    );
+    assertEq(
+      slFormat.format(bytes32(type(uint256).max)),
+      "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
     );
   }
 }
