@@ -22,6 +22,7 @@ contract SLConsoleTest is Test {
     sl.log("5M (WAD decimals) : ", 5_000_000);
     sl.log("5M (Zero decimals): ", 5_000_000, 0);
     sl.log("5M (6 decimals)   : ", 5_000_000, 6);
+    sl.log("Messages can be indented");
     sl.logLineDelimiter();
     sl.outdent();
 

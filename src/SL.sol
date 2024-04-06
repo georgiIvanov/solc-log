@@ -15,7 +15,7 @@ library sl {
   /// Format is [message]
   /// @param message The message to log
   function log(string memory message) pure public {
-    console2.log(message);
+    console2.log(message.format());
   }
 
   /*//////////////////////////////////////////////////////////////

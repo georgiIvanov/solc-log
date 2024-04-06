@@ -8,6 +8,10 @@ import {slIndent} from "./SLIndent.sol";
 library slFormat {
   using slIndent for string;
 
+  function format(string memory message) pure internal returns(string memory) {
+    return message.applyIndent(true);
+  }
+
   /// @notice Converts number to hex string with message prefix and applies indent
   function format(string memory message, bytes32 value) pure internal returns(string memory) {
     return string.concat(
