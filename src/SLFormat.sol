@@ -1,12 +1,18 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import {Vm} from "forge-std/Vm.sol";
 import {slInternal} from "./SLInternal.sol";
 import {slIndent} from "./SLIndent.sol";
 
 library slFormat {
   using slIndent for string;
+
+  function format(string memory message, int256 number) pure internal returns(string memory) {
+    return string.concat(
+      message,
+      slInternal.vm.toString(number)
+    ).applyIndent(true);
+  }
 
   function formatAsBinary(uint256 number) pure internal returns(string memory) {
     return _convertToBinary(number).applyIndent(true);
