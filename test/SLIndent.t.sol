@@ -18,7 +18,8 @@ contract SLIndent is Test {
     indentTimes = slIndent.outdent();
     assertEq(indentTimes, 0);
 
-    vm.expectRevert();
+    // Unbalanced outdent calls don't underflow
     indentTimes = slIndent.outdent();
+    assertEq(indentTimes, 0);
   }
 }

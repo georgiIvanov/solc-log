@@ -36,7 +36,12 @@ library slIndent {
     }
 
     function outdent() internal pure returns (uint256) {
-      uint256 indentTimes = indentCount() - 1;
+      uint256 currentIndent = indentCount();
+      if (currentIndent == 0) {
+        return 0;
+      }
+
+      uint256 indentTimes = currentIndent - 1;
       bytes memory payload = abi.encodeWithSignature(
         "store(address,bytes32,bytes32)", VM_ADDRESS, IndentCountSlot, bytes32(indentTimes)
       );
