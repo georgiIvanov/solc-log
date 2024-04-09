@@ -4,6 +4,7 @@ pragma solidity ^0.8.0;
 import {Test, console} from "forge-std/Test.sol";
 import "@src/SL.sol";
 
+// forge test -vv --mt testPrintNumbersInDifferentDenominations
 contract SLConsoleTest is Test {
   function testPrintNumbersInDifferentDenominations() pure public {
     sl.indent();

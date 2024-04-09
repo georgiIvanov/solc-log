@@ -7,7 +7,10 @@ import {slInternal} from "./SLInternal.sol";
 
 library slIndent {
     string internal constant LogInset = "    ";
-    string internal constant InsetCountKey = "sl.insetCount";
+    address internal constant VM_ADDRESS = address(uint160(uint256(keccak256("hevm cheat code"))));
+    // keccak256(abi.encode(uint256(keccak256("sl.key.indentCount")) - 1)) & ~bytes32(uint256(0xff))
+    bytes32 private constant IndentCountSlot = 0x6fd4a1b467b35b28373811cbff53fcf35e519d446365ce4ab2db637641925200;
+
 
     /// @notice Conditionally applies indent to formatted string
     /// @dev applyIndent can be called multiple times during format, so we have to apply it conditionally
@@ -19,29 +22,29 @@ library slIndent {
     }
 
     function indentCount() pure internal returns (uint256) {
-      bytes memory payload = abi.encodeWithSignature("envOr(string,uint256)", InsetCountKey, 0);
-      return _sendReadU256Payload(payload);
+      bytes memory payload = abi.encodeWithSignature("load(address,bytes32)", VM_ADDRESS, IndentCountSlot);
+      return _readDataAtSlot(payload);
     }
 
     function indent() internal pure returns (uint256) {
       uint256 indentTimes = indentCount() + 1;
       bytes memory payload = abi.encodeWithSignature(
-        "setEnv(string,string)", InsetCountKey, slInternal.vm.toString(indentTimes)
+        "store(address,bytes32,bytes32)", VM_ADDRESS, IndentCountSlot, bytes32(indentTimes)
       );
-      _sendSetEnvPayload(payload);
+      _storeDataAtSlot(payload);
       return indentTimes;
     }
 
     function outdent() internal pure returns (uint256) {
       uint256 indentTimes = indentCount() - 1;
       bytes memory payload = abi.encodeWithSignature(
-        "setEnv(string,string)", InsetCountKey, slInternal.vm.toString(indentTimes)
+        "store(address,bytes32,bytes32)", VM_ADDRESS, IndentCountSlot, bytes32(indentTimes)
       );
-      _sendSetEnvPayload(payload);
+      _storeDataAtSlot(payload);
       return indentTimes;
     }
 
-    function _castReadU256ToPure(
+    function _castReadDataAtSlot(
         function(bytes memory) internal view returns (uint256) fnIn
     ) internal pure returns (function(bytes memory) internal pure returns (uint256) fnOut) {
       assembly {
@@ -49,11 +52,11 @@ library slIndent {
       }
     }
 
-    function _sendReadU256Payload(bytes memory payload) internal pure returns (uint256) {
-      return _castReadU256ToPure(_sendPayloadReadU256)(payload);
+    function _readDataAtSlot(bytes memory payload) internal pure returns (uint256) {
+      return _castReadDataAtSlot(_invokeReadDataAtSlot)(payload);
     }
 
-    function _sendPayloadReadU256(bytes memory payload) private view returns (uint256 returnValue) {
+    function _invokeReadDataAtSlot(bytes memory payload) private view returns (uint256 returnValue) {
       uint256 payloadLength = payload.length;
       address vmAddress = slInternal.VM_ADDRESS;
       assembly {
@@ -71,7 +74,7 @@ library slIndent {
       return returnValue;
     }
 
-    function _castSetEnv(
+    function _castStoreDataAtSlot(
       function(bytes memory) internal view fnIn
     ) internal pure returns (function(bytes memory) internal pure fnOut) {
       assembly {
@@ -79,11 +82,11 @@ library slIndent {
       }
     }
 
-    function _sendSetEnvPayload(bytes memory payload) internal pure  {
-      return _castSetEnv(_sendPayloadSetEnv)(payload);
+    function _storeDataAtSlot(bytes memory payload) private pure  {
+      return _castStoreDataAtSlot(_invokeStoreDataAtSlot)(payload);
     }
 
-    function _sendPayloadSetEnv(bytes memory payload) private view {
+    function _invokeStoreDataAtSlot(bytes memory payload) internal view {
       uint256 payloadLength = payload.length;
       address vmAddress = slInternal.VM_ADDRESS;
       assembly {
