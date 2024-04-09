@@ -8,9 +8,9 @@ import {slInternal} from "./SLInternal.sol";
 library slIndent {
     string internal constant LogInset = "    ";
     address internal constant VM_ADDRESS = address(uint160(uint256(keccak256("hevm cheat code"))));
-    // keccak256(abi.encode(uint256(keccak256("sl.key.indentCount")) - 1)) & ~bytes32(uint256(0xff))
-    bytes32 private constant IndentCountSlot = 0x6fd4a1b467b35b28373811cbff53fcf35e519d446365ce4ab2db637641925200;
 
+    // keccak256(abi.encode(uint256(keccak256("sl.key.indentCount")) - 1)) & ~bytes32(uint256(0xff))
+    bytes32 internal constant IndentCountSlot = 0x6fd4a1b467b35b28373811cbff53fcf35e519d446365ce4ab2db637641925200;
 
     /// @notice Conditionally applies indent to formatted string
     /// @dev applyIndent can be called multiple times during format, so we have to apply it conditionally
