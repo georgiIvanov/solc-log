@@ -22,7 +22,7 @@ library sl {
                               LOG INT
   //////////////////////////////////////////////////////////////*/
   // TODO: Format ints with decimals, like uint256s
-  function logInt(string memory message, int256 number) pure public {
+  function log(string memory message, int256 number) pure public {
     console2.log(message.format(number));
   }
 
