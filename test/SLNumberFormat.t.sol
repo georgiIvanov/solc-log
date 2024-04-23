@@ -18,19 +18,19 @@ contract SLNumberFormat is Test {
     );
 
     assertEq(
-      slFormat.format("number: ", 123 ether, slInternal.WAD), 
+      slFormat.format("number: ", uint256(123 ether), slInternal.WAD), 
       "number: 123-000000000000000000"
     );
 
     assertEq(
-      slFormat.format("number: ", 123 * 1e6, 6), 
+      slFormat.format("number: ", uint256(123 * 1e6), 6), 
       "number: 123-000000"
     );
   }
 
   function testDecimalGreaterThanNumber() pure public {
     assertEq(
-      slFormat.format("number: ", 0, 6), 
+      slFormat.format("number: ", uint256(0), 6), 
       "number: 0"
     );
 
@@ -114,18 +114,35 @@ contract SLNumberFormat is Test {
 
   function testFormatInt() pure public {
     assertEq(
-      slFormat.format("Negative int: ", int256(-123)),
+      slFormat.format("Negative int: ", int256(0), slInternal.WAD),
+      "Negative int: 0"
+    );
+
+    assertEq(
+      slFormat.format("Negative int: ", int256(-123), 0),
       "Negative int: -123"
     );
 
     assertEq(
-      slFormat.format("Zero int: ", int256(-0)),
+      slFormat.format("Negative int: ", -32_000_000, 6),
+      "Negative int: -32-000000"
+    );
+
+    assertEq(
+      slFormat.format("Zero int: ", int256(-0), slInternal.WAD),
       "Zero int: 0"
     );
 
     assertEq(
-      slFormat.format("Positive int: ", int256(23_456_789)),
+      slFormat.format("Positive int: ", int256(23_456_789), 0),
       "Positive int: 23456789"
     );
+
+    assertEq(
+      slFormat.format("Positive int: ", int256(23_456_789 ether), slInternal.WAD),
+      "Positive int: 23456789-000000000000000000"
+    );
+
+    sl.logInt("Logging int 6 decimals: ", -32_000_000, 6);
   }
 }

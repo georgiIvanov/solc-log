@@ -7,11 +7,10 @@ import {slIndent} from "./SLIndent.sol";
 library slFormat {
   using slIndent for string;
 
-  function format(string memory message, int256 number) pure internal returns(string memory) {
-    return string.concat(
-      message,
-      slInternal.vm.toString(number)
-    ).applyIndent(true);
+  function format(string memory message, int256 number, uint256 decimalPlaces) pure internal returns(string memory) {
+    string memory fmtNumber = _format(slInternal.abs(number), decimalPlaces, false);
+    string memory fmtNumberSign = number >= 0 ? fmtNumber : string.concat("-", fmtNumber);
+    return string.concat(message, fmtNumberSign).applyIndent(true);
   }
 
   function formatAsBinary(uint256 number) pure internal returns(string memory) {

@@ -21,9 +21,20 @@ library sl {
   /*//////////////////////////////////////////////////////////////
                               LOG INT
   //////////////////////////////////////////////////////////////*/
-  // TODO: Format ints with decimals, like uint256s
+  function logInt(string memory message, int256 number, uint256 decimalPlaces) pure public {
+    console2.log(message.format(number, decimalPlaces));
+  }
+
   function logInt(string memory message, int256 number) pure public {
-    console2.log(message.format(number));
+    console2.log(message.format(number, slInternal.WAD));
+  }
+
+  function logInt(int256 number) pure public {
+    console2.log(string("").format(number, slInternal.WAD));
+  }
+
+  function logInt(int256 number, uint256 decimalPlaces) pure public {
+    console2.log(string("").format(number, decimalPlaces));
   }
 
   /*//////////////////////////////////////////////////////////////

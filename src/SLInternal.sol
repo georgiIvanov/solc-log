@@ -64,4 +64,8 @@ library slInternal {
 
       return string(result);
     }
+
+    function abs(int256 x) internal pure returns (uint256) {
+      return x >= 0 ? uint256(x) : uint256(-x);
+    }
 }
