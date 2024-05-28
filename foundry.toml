@@ -1,6 +1,10 @@
 [profile.default]
+name = "solc-log"
+version = "0.1.0"
+solc = "0.8.25"
 src = "src"
 out = "out"
 libs = ["lib"]
+optimizer_runs = 10000
 
 # See more config options https://github.com/foundry-rs/foundry/blob/master/crates/config/README.md#all-options

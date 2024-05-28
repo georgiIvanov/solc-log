@@ -5,7 +5,7 @@ import {Test, console} from "forge-std/Test.sol";
 import "@src/SLIndent.sol";
 
 contract SLIndent is Test {
-  function testIndent() public {
+  function testIndent() public pure {
     uint256 indentTimes = slIndent.indent();
     assertEq(indentTimes, 1);
 

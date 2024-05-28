@@ -1,13 +1,14 @@
 # SolcLog
 
-Logging helper library that reduces the time spent writing the same logging functions again and again.
+Logging library that **reduces** the time spent writing the same logging functions again and again.
 
-It is a temporary tool to understand codebases and **not designed** to include in production code.
-
-Features:
+### Features
 - Numbers formatting
 - Line delimiters
-- Stateful logs indentation
+- Logs indentation
+- Binary and hex representation of numbers
+
+> See `SLConsole.t.sol` for examples
 
 ## Usage
 
@@ -43,3 +44,9 @@ forge test -vv
 1. If you don't see logs, make sure you are running a normal unit test.
 Currently Forge does not support logging in fuzz tests.
 2. Does not work with hardhat traces.
+
+## TODO
+
+- Log bytes, similar to console2.logBytes
+- Parameterized indent / outdent
+- Decimal places for bits, Q notation (X96 or X128). Example: `uint160 sqrtPriceX96 = Q64.X96` (whole part is 64 bits)
