@@ -7,6 +7,16 @@ import {slIndent} from "./SLIndent.sol";
 library slFormat {
   using slIndent for string;
 
+  /// @notice Formats Q notation. 
+  /// @dev Example: uint160 sqrtPriceX96 = Q64.X96 (whole part is 64 bits)
+  function formatX(string memory message, uint256 number, uint256 xBits) pure internal returns(string memory) {
+    uint256 mask = (1 << xBits) - 1; // Mask with the last 96 bits set to 1
+    uint256 fraction = number & mask;
+
+    string memory formattedNumber = slInternal.vm.toString(fraction);
+    return string.concat(message, formattedNumber).applyIndent(true);
+  }
+
   function format(string memory message, int256 number, uint256 decimalPlaces) pure internal returns(string memory) {
     string memory fmtNumber = _format(slInternal.abs(number), decimalPlaces, false);
     string memory fmtNumberSign = number >= 0 ? fmtNumber : string.concat("-", fmtNumber);

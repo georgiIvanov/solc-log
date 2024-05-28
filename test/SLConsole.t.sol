@@ -35,6 +35,11 @@ contract SLConsoleTest is Test {
     sl.logInt("Logging int 6 decimals: ", -32_000_000, 6);
     sl.logInt(-32_000_000);
     sl.logLineDelimiter();
+
+    sl.logLineDelimiter("Q notation examples");
+    sl.logX96("", number);
+
     sl.outdent();
+
   }
 }
