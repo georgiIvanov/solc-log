@@ -19,6 +19,18 @@ library sl {
   }
 
   /*//////////////////////////////////////////////////////////////
+                              LOG BOOL
+  //////////////////////////////////////////////////////////////*/
+
+  /// @notice Logs bool with message
+  /// Format is [message] [bool]
+  /// @param message The message to log
+  /// @param value The bool value to log
+  function log(string memory message, bool value) pure public {
+    console2.log(message.format(value));
+  }
+
+  /*//////////////////////////////////////////////////////////////
                               LOG INT
   //////////////////////////////////////////////////////////////*/
   function logInt(string memory message, int256 number, uint256 decimalPlaces) pure public {

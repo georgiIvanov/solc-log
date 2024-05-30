@@ -7,6 +7,11 @@ import {slIndent} from "./SLIndent.sol";
 library slFormat {
   using slIndent for string;
 
+  function format(string memory message, bool value) pure internal returns(string memory) {
+    string memory strValue = value ? "true" : "false";
+    return string.concat(message, strValue).applyIndent(true);
+  }
+
   function format(string memory message, int256 number, uint256 decimalPlaces) pure internal returns(string memory) {
     string memory fmtNumber = _format(slInternal.abs(number), decimalPlaces, false);
     string memory fmtNumberSign = number >= 0 ? fmtNumber : string.concat("-", fmtNumber);

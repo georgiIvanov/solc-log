@@ -36,5 +36,8 @@ contract SLConsoleTest is Test {
     sl.logInt(-32_000_000);
     sl.logLineDelimiter();
     sl.outdent();
+
+    sl.log("Logging bool: ", true);
+    sl.log("Logging bool: ", false);
   }
 }
